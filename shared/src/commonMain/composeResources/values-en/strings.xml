@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_title">Rick and Morty</string>
+    <string name="action_back">Back</string>
+    <string name="action_toggle_theme">Toggle theme</string>
+    <string name="action_toggle_language">Change language</string>
+    <string name="language_code">EN</string>
+    <string name="search_hint">Search by name</string>
+    <string name="list_empty">Nobody found</string>
+    <string name="status_alive">Alive</string>
+    <string name="status_dead">Dead</string>
+    <string name="status_unknown">Unknown</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_genderless">Genderless</string>
+    <string name="gender_unknown">Unknown</string>
+    <string name="section_info">Info</string>
+    <string name="section_neighbours">Also at this location</string>
+    <string name="detail_status">Status</string>
+    <string name="detail_species">Species</string>
+    <string name="detail_type">Type</string>
+    <string name="detail_gender">Gender</string>
+    <string name="detail_origin">Origin</string>
+    <string name="detail_location">Last known location</string>
+    <string name="detail_episodes">Episodes</string>
+</resources>

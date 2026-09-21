@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_title">Рик и Морти</string>
+    <string name="action_back">Назад</string>
+    <string name="action_toggle_theme">Переключить тему</string>
+    <string name="action_toggle_language">Сменить язык</string>
+    <string name="language_code">RU</string>
+    <string name="search_hint">Поиск по имени</string>
+    <string name="list_empty">Никого не нашли</string>
+    <string name="status_alive">Жив</string>
+    <string name="status_dead">Мёртв</string>
+    <string name="status_unknown">Неизвестно</string>
+    <string name="gender_female">Женский</string>
+    <string name="gender_male">Мужской</string>
+    <string name="gender_genderless">Бесполый</string>
+    <string name="gender_unknown">Неизвестно</string>
+    <string name="section_info">Досье</string>
+    <string name="section_neighbours">Сейчас там же</string>
+    <string name="detail_status">Статус</string>
+    <string name="detail_species">Вид</string>
+    <string name="detail_type">Подвид</string>
+    <string name="detail_gender">Пол</string>
+    <string name="detail_origin">Происхождение</string>
+    <string name="detail_location">Последнее местоположение</string>
+    <string name="detail_episodes">Эпизодов</string>
+</resources>
