@@ -19,9 +19,6 @@ enum class AppLanguage(val code: String) {
 }
 
 expect object LocalAppLocale {
-    val current: String
-        @Composable get
-
     @Composable
     infix fun provides(value: String?): ProvidedValue<*>
 }

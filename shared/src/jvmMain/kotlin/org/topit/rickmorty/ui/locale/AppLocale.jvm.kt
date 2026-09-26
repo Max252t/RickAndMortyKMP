@@ -9,9 +9,6 @@ actual object LocalAppLocale {
     private var default: Locale? = null
     private val LocalAppLocale = staticCompositionLocalOf { Locale.getDefault().toString() }
 
-    actual val current: String
-        @Composable get() = LocalAppLocale.current
-
     @Composable
     actual infix fun provides(value: String?): ProvidedValue<*> {
         val system = default ?: Locale.getDefault().also { default = it }
