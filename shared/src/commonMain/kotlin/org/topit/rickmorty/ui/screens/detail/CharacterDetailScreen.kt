@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.topit.rickmorty.presentation.detail.CharacterDetailIntent
+import org.topit.rickmorty.ui.detail.CharacterDetailIntent
 import org.topit.rickmorty.resources.Res
 import org.topit.rickmorty.resources.detail_episodes
 import org.topit.rickmorty.resources.detail_gender

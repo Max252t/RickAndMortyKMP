@@ -1,4 +1,4 @@
-package org.topit.rickmorty.navigation
+package org.topit.rickmorty.ui.navigation
 
 sealed interface Screen {
     data object CharacterList : Screen

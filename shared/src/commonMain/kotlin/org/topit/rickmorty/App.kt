@@ -17,10 +17,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.topit.rickmorty.data.RickMortyRepositoryImpl
 import org.topit.rickmorty.domain.repositories.RickMortyRepository
-import org.topit.rickmorty.navigation.AppNavDisplay
-import org.topit.rickmorty.navigation.Navigator
-import org.topit.rickmorty.presentation.detail.CharacterDetailViewModelFactory
-import org.topit.rickmorty.presentation.list.CharacterListViewModelFactory
+import org.topit.rickmorty.ui.navigation.AppNavDisplay
+import org.topit.rickmorty.ui.navigation.Navigator
+import org.topit.rickmorty.ui.detail.CharacterDetailViewModelFactory
+import org.topit.rickmorty.ui.list.CharacterListViewModelFactory
 import org.topit.rickmorty.resources.Res
 import org.topit.rickmorty.resources.action_toggle_language
 import org.topit.rickmorty.resources.action_toggle_theme

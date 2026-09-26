@@ -1,4 +1,4 @@
-package org.topit.rickmorty.navigation
+package org.topit.rickmorty.ui.navigation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

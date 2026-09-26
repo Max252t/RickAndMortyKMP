@@ -1,4 +1,4 @@
-package org.topit.rickmorty.navigation
+package org.topit.rickmorty.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
@@ -14,10 +14,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import org.topit.rickmorty.presentation.detail.CharacterDetailViewModel
-import org.topit.rickmorty.presentation.detail.CharacterDetailViewModelFactory
-import org.topit.rickmorty.presentation.list.CharacterListViewModel
-import org.topit.rickmorty.presentation.list.CharacterListViewModelFactory
+import org.topit.rickmorty.ui.detail.CharacterDetailViewModel
+import org.topit.rickmorty.ui.detail.CharacterDetailViewModelFactory
+import org.topit.rickmorty.ui.list.CharacterListViewModel
+import org.topit.rickmorty.ui.list.CharacterListViewModelFactory
 import org.topit.rickmorty.ui.screens.detail.CharacterDetailScreen
 import org.topit.rickmorty.ui.screens.list.CharacterListScreen
 

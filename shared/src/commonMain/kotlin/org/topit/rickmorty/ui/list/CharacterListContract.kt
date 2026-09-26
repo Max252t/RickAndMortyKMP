@@ -1,4 +1,4 @@
-package org.topit.rickmorty.presentation.list
+package org.topit.rickmorty.ui.list
 
 import androidx.compose.runtime.Immutable
 import org.topit.rickmorty.ui.model.CharacterCardUi

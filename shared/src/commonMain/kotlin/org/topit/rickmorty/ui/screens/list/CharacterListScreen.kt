@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.topit.rickmorty.presentation.list.CharacterListIntent
-import org.topit.rickmorty.presentation.list.CharacterListState
+import org.topit.rickmorty.ui.list.CharacterListIntent
+import org.topit.rickmorty.ui.list.CharacterListState
 import org.topit.rickmorty.resources.Res
 import org.topit.rickmorty.resources.list_empty
 import org.topit.rickmorty.resources.search_hint

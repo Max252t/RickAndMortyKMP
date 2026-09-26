@@ -1,4 +1,4 @@
-package org.topit.rickmorty.presentation.detail
+package org.topit.rickmorty.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.topit.rickmorty.domain.repositories.RickMortyRepository
 import org.topit.rickmorty.domain.repositories.getNeighbours
-import org.topit.rickmorty.navigation.Navigator
-import org.topit.rickmorty.navigation.Screen
+import org.topit.rickmorty.ui.navigation.Navigator
+import org.topit.rickmorty.ui.navigation.Screen
 import org.topit.rickmorty.ui.model.CharacterDetailUi
 import org.topit.rickmorty.ui.model.toDetailUi
 import kotlin.reflect.KClass
