@@ -17,8 +17,8 @@ suspend fun RickMortyRepository.getCharacters(filter: String?): List<Character> 
     getCharacters().filterByName(filter)
 
 suspend fun RickMortyRepository.getNeighbours(character: Character): List<Character> {
-    if (character.location.url.isEmpty()) return emptyList()
-    return getCharacters().filter { it.location.url == character.location.url && it.id != character.id }
+    val locationId = character.location.id ?: return emptyList()
+    return getCharacters().filter { it.location.id == locationId && it.id != character.id }
 }
 
 fun List<Character>.filterByName(filter: String?): List<Character> {

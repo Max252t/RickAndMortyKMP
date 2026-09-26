@@ -1,15 +1,10 @@
 package org.topit.rickmorty.domain.entities
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Episode(
     val id: Int,
     val name: String,
-    @SerialName("air_date") val airDate: String,
-    val episode: String,
-    val characters: List<String>,
-    val url: String,
-    val created: String
+    val airDate: String,
+    val code: String,
+    val characterIds: List<Int>,
+    val created: String,
 )

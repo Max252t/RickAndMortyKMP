@@ -1,11 +1,9 @@
 package org.topit.rickmorty.data
 
-import org.topit.rickmorty.domain.entities.Character
-import org.topit.rickmorty.domain.entities.Episode
-import org.topit.rickmorty.domain.entities.Gender
-import org.topit.rickmorty.domain.entities.Location
-import org.topit.rickmorty.domain.entities.LocationRef
-import org.topit.rickmorty.domain.entities.Status
+import org.topit.rickmorty.data.dto.CharacterDto
+import org.topit.rickmorty.data.dto.EpisodeDto
+import org.topit.rickmorty.data.dto.LocationDto
+import org.topit.rickmorty.data.dto.LocationRefDto
 
 private const val API = "https://rickandmortyapi.com/api"
 
@@ -14,8 +12,8 @@ private fun locationUrl(id: Int) = "$API/location/$id"
 private fun episodeUrl(id: Int) = "$API/episode/$id"
 private fun avatarUrl(id: Int) = "$API/character/avatar/$id.jpeg"
 
-private fun locationRef(id: Int, name: String) = LocationRef(name = name, url = locationUrl(id))
-private val unknownLocation = LocationRef(name = "unknown", url = "")
+private fun locationRef(id: Int, name: String) = LocationRefDto(name = name, url = locationUrl(id))
+private val unknownLocation = LocationRefDto(name = "unknown", url = "")
 
 private fun episodes(vararg ids: Int): List<String> = ids.map(::episodeUrl)
 private fun episodes(range: IntRange): List<String> = range.map(::episodeUrl)
@@ -31,14 +29,14 @@ private val earthReplacement = locationRef(20, "Earth (Replacement Dimension)")
 private val testicleMonsterDimension = locationRef(21, "Testicle Monster Dimension")
 private val signus5Expanse = locationRef(22, "Signus 5 Expanse")
 
-val mockCharacters: List<Character> = listOf(
-    Character(
+val mockCharacters: List<CharacterDto> = listOf(
+    CharacterDto(
         id = 1,
         name = "Rick Sanchez",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthC137,
         location = citadel,
         image = avatarUrl(1),
@@ -46,13 +44,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(1),
         created = "2017-11-04T18:48:46.250Z",
     ),
-    Character(
+    CharacterDto(
         id = 2,
         name = "Morty Smith",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(2),
@@ -60,13 +58,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(2),
         created = "2017-11-04T18:50:21.651Z",
     ),
-    Character(
+    CharacterDto(
         id = 3,
         name = "Summer Smith",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.FEMALE,
+        gender = "Female",
         origin = earthReplacement,
         location = earthReplacement,
         image = avatarUrl(3),
@@ -74,13 +72,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(3),
         created = "2017-11-04T19:09:56.428Z",
     ),
-    Character(
+    CharacterDto(
         id = 4,
         name = "Beth Smith",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.FEMALE,
+        gender = "Female",
         origin = earthReplacement,
         location = earthReplacement,
         image = avatarUrl(4),
@@ -88,13 +86,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(4),
         created = "2017-11-04T19:22:43.665Z",
     ),
-    Character(
+    CharacterDto(
         id = 5,
         name = "Jerry Smith",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthReplacement,
         location = earthReplacement,
         image = avatarUrl(5),
@@ -102,13 +100,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(5),
         created = "2017-11-04T19:26:56.301Z",
     ),
-    Character(
+    CharacterDto(
         id = 6,
         name = "Abadango Cluster Princess",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Alien",
         type = "",
-        gender = Gender.FEMALE,
+        gender = "Female",
         origin = abadango,
         location = abadango,
         image = avatarUrl(6),
@@ -116,13 +114,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(6),
         created = "2017-11-04T19:50:28.250Z",
     ),
-    Character(
+    CharacterDto(
         id = 7,
         name = "Abradolf Lincler",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Human",
         type = "Genetic experiment",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthReplacement,
         location = testicleMonsterDimension,
         image = avatarUrl(7),
@@ -130,13 +128,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(7),
         created = "2017-11-04T19:59:20.523Z",
     ),
-    Character(
+    CharacterDto(
         id = 8,
         name = "Adjudicator Rick",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(8),
@@ -144,13 +142,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(8),
         created = "2017-11-04T20:03:34.737Z",
     ),
-    Character(
+    CharacterDto(
         id = 9,
         name = "Agency Director",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthReplacement,
         location = earthReplacement,
         image = avatarUrl(9),
@@ -158,13 +156,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(9),
         created = "2017-11-04T20:06:54.976Z",
     ),
-    Character(
+    CharacterDto(
         id = 10,
         name = "Alan Rails",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Human",
         type = "Superhuman (Ghost trains summoner)",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = worldenderLair,
         image = avatarUrl(10),
@@ -172,13 +170,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(10),
         created = "2017-11-04T20:19:09.017Z",
     ),
-    Character(
+    CharacterDto(
         id = 11,
         name = "Albert Einstein",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthC137,
         location = earthReplacement,
         image = avatarUrl(11),
@@ -186,13 +184,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(11),
         created = "2017-11-04T20:20:20.965Z",
     ),
-    Character(
+    CharacterDto(
         id = 12,
         name = "Alexander",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Human",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = earthC137,
         location = anatomyPark,
         image = avatarUrl(12),
@@ -200,13 +198,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(12),
         created = "2017-11-04T20:32:33.144Z",
     ),
-    Character(
+    CharacterDto(
         id = 13,
         name = "Alien Googah",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Alien",
         type = "",
-        gender = Gender.UNKNOWN,
+        gender = "unknown",
         origin = unknownLocation,
         location = earthReplacement,
         image = avatarUrl(13),
@@ -214,13 +212,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(13),
         created = "2017-11-04T20:33:30.779Z",
     ),
-    Character(
+    CharacterDto(
         id = 14,
         name = "Alien Morty",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Alien",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(14),
@@ -228,13 +226,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(14),
         created = "2017-11-04T20:51:31.373Z",
     ),
-    Character(
+    CharacterDto(
         id = 15,
         name = "Alien Rick",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Alien",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(15),
@@ -242,13 +240,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(15),
         created = "2017-11-04T20:56:13.215Z",
     ),
-    Character(
+    CharacterDto(
         id = 16,
         name = "Amish Cyborg",
-        status = Status.DEAD,
+        status = "Dead",
         species = "Alien",
         type = "Parasite",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = earthReplacement,
         image = avatarUrl(16),
@@ -256,13 +254,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(16),
         created = "2017-11-04T21:12:45.235Z",
     ),
-    Character(
+    CharacterDto(
         id = 17,
         name = "Annie",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "",
-        gender = Gender.FEMALE,
+        gender = "Female",
         origin = earthC137,
         location = anatomyPark,
         image = avatarUrl(17),
@@ -270,13 +268,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(17),
         created = "2017-11-04T22:21:24.481Z",
     ),
-    Character(
+    CharacterDto(
         id = 18,
         name = "Antenna Morty",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Human",
         type = "Human with antennae",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(18),
@@ -284,13 +282,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(18),
         created = "2017-11-04T22:25:29.008Z",
     ),
-    Character(
+    CharacterDto(
         id = 19,
         name = "Antenna Rick",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Human",
         type = "Human with antennae",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = unknownLocation,
         image = avatarUrl(19),
@@ -298,13 +296,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(19),
         created = "2017-11-04T22:28:13.756Z",
     ),
-    Character(
+    CharacterDto(
         id = 20,
         name = "Ants in my Eyes Johnson",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Human",
         type = "Human with ants in his eyes",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = interdimensionalCable,
         image = avatarUrl(20),
@@ -312,13 +310,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(20),
         created = "2017-11-04T22:34:53.659Z",
     ),
-    Character(
+    CharacterDto(
         id = 21,
         name = "Aqua Morty",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Humanoid",
         type = "Fish-Person",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(21),
@@ -326,13 +324,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(21),
         created = "2017-11-04T22:39:48.835Z",
     ),
-    Character(
+    CharacterDto(
         id = 22,
         name = "Aqua Rick",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Humanoid",
         type = "Fish-Person",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = citadel,
         image = avatarUrl(22),
@@ -340,13 +338,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(22),
         created = "2017-11-04T22:41:07.171Z",
     ),
-    Character(
+    CharacterDto(
         id = 23,
         name = "Arcade Alien",
-        status = Status.UNKNOWN,
+        status = "unknown",
         species = "Alien",
         type = "",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = unknownLocation,
         location = immortalityFieldResort,
         image = avatarUrl(23),
@@ -354,13 +352,13 @@ val mockCharacters: List<Character> = listOf(
         url = characterUrl(23),
         created = "2017-11-05T08:43:05.095Z",
     ),
-    Character(
+    CharacterDto(
         id = 24,
         name = "Armagheadon",
-        status = Status.ALIVE,
+        status = "Alive",
         species = "Alien",
         type = "Cromulon",
-        gender = Gender.MALE,
+        gender = "Male",
         origin = signus5Expanse,
         location = signus5Expanse,
         image = avatarUrl(24),
@@ -370,13 +368,13 @@ val mockCharacters: List<Character> = listOf(
     ),
 )
 
-private fun residentsOf(location: LocationRef): List<String> =
+private fun residentsOf(location: LocationRefDto): List<String> =
     mockCharacters.filter { it.location.url == location.url }.map { it.url }
 
 private fun charactersOf(episodeId: Int): List<String> =
     mockCharacters.filter { episodeUrl(episodeId) in it.episode }.map { it.url }
 
-private fun location(id: Int, ref: LocationRef, type: String, dimension: String, created: String) = Location(
+private fun location(id: Int, ref: LocationRefDto, type: String, dimension: String, created: String) = LocationDto(
     id = id,
     name = ref.name,
     type = type,
@@ -386,7 +384,7 @@ private fun location(id: Int, ref: LocationRef, type: String, dimension: String,
     created = created,
 )
 
-val mockLocations: List<Location> = listOf(
+val mockLocations: List<LocationDto> = listOf(
     location(1, earthC137, "Planet", "Dimension C-137", "2017-11-10T12:42:04.162Z"),
     location(2, abadango, "Cluster", "unknown", "2017-11-10T13:06:38.182Z"),
     location(3, citadel, "Space station", "unknown", "2017-11-10T13:08:13.191Z"),
@@ -399,7 +397,7 @@ val mockLocations: List<Location> = listOf(
     location(22, signus5Expanse, "Cluster", "unknown", "2017-11-18T19:37:34.925Z"),
 )
 
-private fun episode(id: Int, name: String, airDate: String, code: String, created: String) = Episode(
+private fun episode(id: Int, name: String, airDate: String, code: String, created: String) = EpisodeDto(
     id = id,
     name = name,
     airDate = airDate,
@@ -409,7 +407,7 @@ private fun episode(id: Int, name: String, airDate: String, code: String, create
     created = created,
 )
 
-val mockEpisodes: List<Episode> = listOf(
+val mockEpisodes: List<EpisodeDto> = listOf(
     episode(1, "Pilot", "December 2, 2013", "S01E01", "2017-11-10T12:56:33.798Z"),
     episode(2, "Lawnmower Dog", "December 9, 2013", "S01E02", "2017-11-10T12:56:33.916Z"),
     episode(3, "Anatomy Park", "December 16, 2013", "S01E03", "2017-11-10T12:56:34.022Z"),

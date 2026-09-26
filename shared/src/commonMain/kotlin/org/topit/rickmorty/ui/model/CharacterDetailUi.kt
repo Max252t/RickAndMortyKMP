@@ -32,6 +32,6 @@ fun Character.toDetailUi(neighbours: List<Character>): CharacterDetailUi = Chara
     gender = gender.label(),
     origin = origin.name,
     location = location.name,
-    episodeCount = episode.size.toString(),
+    episodeCount = episodeIds.size.toString(),
     neighbours = neighbours.toCardsUi(),
 )
