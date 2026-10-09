@@ -1,41 +1,97 @@
-This is a Kotlin Multiplatform project targeting Android, Web, Desktop (JVM).
+# Рик и Морти — каркас на Compose Multiplatform
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+Учебное кроссплатформенное приложение по вселенной мультсериала «Рик и Морти».
+Веха В1: каркас приложения на Compose Multiplatform, без сети.
 
-### Running the apps
+## Предметная область
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+Каталог персонажей сериала. Источник данных — [rickandmortyapi.com](https://rickandmortyapi.com),
+публичное REST API без авторизации.
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- Web app:
-  - Wasm target (faster, modern browsers): `./gradlew :webApp:wasmJsBrowserDevelopmentRun`
-  - JS target (slower, supports older browsers): `./gradlew :webApp:jsBrowserDevelopmentRun`
+Сущности домена:
 
-### Running tests
+| Сущность | Что описывает | Ключевые поля |
+|---|---|---|
+| `Character` | персонаж | имя, статус (жив / мёртв / неизвестно), вид, подвид, пол, место рождения, последнее местоположение, эпизоды |
+| `Location` | место: планета, измерение, космическая станция | название, тип, измерение, жители |
+| `Episode` | эпизод сериала | название, дата выхода, код вида `S01E01`, участники |
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+Экраны:
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :shared:jvmTest`
-- Web tests:
-  - Wasm target: `./gradlew :shared:wasmJsTest`
-  - JS target: `./gradlew :shared:jsTest`
+- **Список персонажей** — 24 записи, поиск по имени. У карточки видны аватар, имя, статус и вид.
+- **Карточка персонажа** — досье: статус, вид, подвид, пол, происхождение, последнее местоположение,
+  число эпизодов. Ниже блок «Сейчас там же»: персонажи с тем же последним местоположением,
+  каждый открывается как новый экран.
 
----
+В В1 сети нет: данные лежат в моках в форме ответов API. В В2 моки заменит сеть,
+а домен и UI останутся прежними.
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://kotlinlang.org/compose-multiplatform/),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## Запуск
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+Нужен JDK 21. Остальное Gradle скачает сам, первый sync долгий.
+
+Desktop — ведущий таргет вехи:
+
+```bash
+./gradlew :desktopApp:run
+```
+
+Web (wasm), бонусом:
+
+```bash
+./gradlew :webApp:wasmJsBrowserDevelopmentRun
+```
+
+Android (нужен настроенный Android SDK):
+
+```bash
+./gradlew :androidApp:assembleDebug
+```
+
+## Проверки
+
+Паритет ключей в локалях:
+
+```bash
+python tools/check-strings.py
+```
+
+Отчёт компилятора Compose о стабильности и пропуске рекомпозиции
+(после сборки лежит в `shared/build/compose_compiler/`):
+
+```bash
+./gradlew :shared:compileKotlinJvm
+```
+
+## Структура
+
+| Путь | Что внутри |
+|---|---|
+| `shared/src/commonMain/kotlin/.../domain` | сущности и интерфейс репозитория, без деталей транспорта |
+| `shared/src/commonMain/kotlin/.../data` | DTO в форме ответа API, мапперы в домен, моки, реализация репозитория |
+| `shared/src/commonMain/kotlin/.../ui/list`, `.../ui/detail` | состояние, намерения и ViewModel экранов |
+| `shared/src/commonMain/kotlin/.../ui/screens` | сами экраны, рисуются из состояния |
+| `shared/src/commonMain/kotlin/.../ui/navigation` | маршруты, бэкстек и `NavDisplay` |
+| `shared/src/commonMain/kotlin/.../ui/model` | UI-модели и мапперы из домена |
+| `shared/src/commonMain/kotlin/.../ui/theme` | светлая и тёмная схемы цветов |
+| `shared/src/commonMain/kotlin/.../ui/locale` | переключение языка в рантайме, по реализации на платформу |
+| `shared/src/commonMain/composeResources` | подписи интерфейса (ru, en) и аватары персонажей |
+| `tools/check-strings.py` | сверка ключей локалей |
+
+## Технические решения
+
+- **Навигация** — Navigation 3, мультиплатформенная сборка UI-части
+  (`org.jetbrains.androidx.navigation3:navigation3-ui`). Маршрут — объект: `sealed interface Screen`.
+  Бэкстек — обычный список в `StateFlow` внутри `Navigator`.
+- **Состояние** — MVI: вниз в composable уходят состояние и колбэк намерений, ViewModel целиком не передаётся.
+- **Тема** — токены `MaterialTheme`, светлая и тёмная. Зашитый цвет один: цвет статуса персонажа,
+  он несёт смысл данных и от темы не зависит.
+- **Подписи** — `composeResources`, две локали. Язык и тема переключаются в шапке и живут в памяти сессии.
+- **Данные каталога не переводятся**: имена, виды и названия локаций остаются на английском, как в API.
+
+## Ограничения вехи В1
+
+- Нет сети и локального хранилища: тема, язык и запрос поиска живут только в памяти сессии.
+- Аватары персонажей лежат в ресурсах, а не грузятся по ссылке.
+- Нет адаптива под ширину окна, deep links и адресной строки браузера — это В3.
+- iOS-таргет не заведён.
