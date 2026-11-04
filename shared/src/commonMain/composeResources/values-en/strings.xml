@@ -6,6 +6,13 @@
     <string name="language_code">EN</string>
     <string name="search_hint">Search by name</string>
     <string name="list_empty">Nobody found</string>
+    <string name="action_retry">Retry</string>
+    <string name="error_no_connection">Can\'t reach the server. Check your connection</string>
+    <string name="error_timeout">The server is taking too long to respond</string>
+    <string name="error_not_found">No such record</string>
+    <string name="error_server">Server error (%1$d)</string>
+    <string name="error_bad_response">The server sent an unexpected response</string>
+    <string name="detail_not_found">No such character</string>
     <string name="status_alive">Alive</string>
     <string name="status_dead">Dead</string>
     <string name="status_unknown">Unknown</string>
