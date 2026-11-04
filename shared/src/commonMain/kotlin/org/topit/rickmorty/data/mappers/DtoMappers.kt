@@ -1,13 +1,12 @@
 package org.topit.rickmorty.data.mappers
 
 import org.topit.rickmorty.data.dto.CharacterDto
-import org.topit.rickmorty.data.dto.EpisodeDto
+import org.topit.rickmorty.data.dto.CharacterPageDto
 import org.topit.rickmorty.data.dto.LocationDto
 import org.topit.rickmorty.data.dto.LocationRefDto
 import org.topit.rickmorty.domain.entities.Character
-import org.topit.rickmorty.domain.entities.Episode
+import org.topit.rickmorty.domain.entities.CharacterPage
 import org.topit.rickmorty.domain.entities.Gender
-import org.topit.rickmorty.domain.entities.Location
 import org.topit.rickmorty.domain.entities.LocationRef
 import org.topit.rickmorty.domain.entities.Status
 
@@ -25,23 +24,12 @@ fun CharacterDto.toDomain(): Character = Character(
     created = created,
 )
 
-fun EpisodeDto.toDomain(): Episode = Episode(
-    id = id,
-    name = name,
-    airDate = airDate,
-    code = episode,
-    characterIds = characters.mapNotNull(::idFromUrl),
-    created = created,
+fun CharacterPageDto.toDomain(): CharacterPage = CharacterPage(
+    items = results.map { it.toDomain() },
+    hasMore = info.next != null,
 )
 
-fun LocationDto.toDomain(): Location = Location(
-    id = id,
-    name = name,
-    type = type,
-    dimension = dimension,
-    residentIds = residents.mapNotNull(::idFromUrl),
-    created = created,
-)
+fun LocationDto.residentIds(): List<Int> = residents.mapNotNull(::idFromUrl)
 
 private fun LocationRefDto.toDomain(): LocationRef = LocationRef(
     id = idFromUrl(url),
