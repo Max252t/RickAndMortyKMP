@@ -1,7 +1,6 @@
 package org.topit.rickmorty.ui.model
 
 import androidx.compose.runtime.Immutable
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.topit.rickmorty.domain.entities.Character
 
@@ -10,7 +9,7 @@ data class CharacterDetailUi(
     val id: Int,
     val name: String,
     val initials: String,
-    val avatar: DrawableResource?,
+    val imageUrl: String,
     val status: StatusUi,
     val species: String,
     val type: String?,
@@ -25,7 +24,7 @@ fun Character.toDetailUi(neighbours: List<Character>): CharacterDetailUi = Chara
     id = id,
     name = name,
     initials = initialsOf(name),
-    avatar = avatarOf(id),
+    imageUrl = imageUrl,
     status = status.toUi(),
     species = species,
     type = type.ifBlank { null },
