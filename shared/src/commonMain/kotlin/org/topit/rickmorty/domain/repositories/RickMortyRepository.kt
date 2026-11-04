@@ -1,28 +1,10 @@
 package org.topit.rickmorty.domain.repositories
 
 import org.topit.rickmorty.domain.entities.Character
-import org.topit.rickmorty.domain.entities.Episode
-import org.topit.rickmorty.domain.entities.Location
+import org.topit.rickmorty.domain.entities.CharacterPage
 
 interface RickMortyRepository {
-    suspend fun getCharacters(): List<Character>
+    suspend fun getCharacters(page: Int, name: String = ""): CharacterPage
     suspend fun getCharacter(id: Int): Character
-    suspend fun getEpisodes(): List<Episode>
-    suspend fun getEpisode(id: Int): Episode
-    suspend fun getLocations(): List<Location>
-    suspend fun getLocation(id: Int): Location
-}
-
-suspend fun RickMortyRepository.getCharacters(filter: String?): List<Character> =
-    getCharacters().filterByName(filter)
-
-suspend fun RickMortyRepository.getNeighbours(character: Character): List<Character> {
-    val locationId = character.location.id ?: return emptyList()
-    return getCharacters().filter { it.location.id == locationId && it.id != character.id }
-}
-
-fun List<Character>.filterByName(filter: String?): List<Character> {
-    val needle = filter?.trim().orEmpty()
-    if (needle.isEmpty()) return this
-    return filter { it.name.contains(needle, ignoreCase = true) }
+    suspend fun getNeighbours(character: Character): List<Character>
 }
