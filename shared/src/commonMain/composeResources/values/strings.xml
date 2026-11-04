@@ -6,6 +6,13 @@
     <string name="language_code">RU</string>
     <string name="search_hint">Поиск по имени</string>
     <string name="list_empty">Никого не нашли</string>
+    <string name="action_retry">Повторить</string>
+    <string name="error_no_connection">Нет связи с сервером. Проверьте интернет</string>
+    <string name="error_timeout">Сервер долго не отвечает</string>
+    <string name="error_not_found">Такой записи нет</string>
+    <string name="error_server">Ошибка сервера (%1$d)</string>
+    <string name="error_bad_response">Сервер прислал непонятный ответ</string>
+    <string name="detail_not_found">Такого персонажа нет</string>
     <string name="status_alive">Жив</string>
     <string name="status_dead">Мёртв</string>
     <string name="status_unknown">Неизвестно</string>
