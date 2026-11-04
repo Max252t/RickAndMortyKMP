@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -51,7 +52,11 @@ fun AppNavDisplay(
                     extras = CharacterDetailViewModelFactory.extrasFor(key.id),
                 )
                 val state by viewModel.state.collectAsStateWithLifecycle()
-                state?.let { CharacterDetailScreen(character = it, onIntent = viewModel::onIntent) }
+                CharacterDetailScreen(
+                    state = state,
+                    onIntent = viewModel::onIntent,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         },
     )
