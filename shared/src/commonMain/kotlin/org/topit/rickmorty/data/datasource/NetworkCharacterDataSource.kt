@@ -6,9 +6,6 @@ import io.ktor.client.plugins.ResponseException
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.ContentConvertException
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 import org.topit.rickmorty.data.api.RickMortyApi
 import org.topit.rickmorty.data.dto.CharacterDto
@@ -16,10 +13,7 @@ import org.topit.rickmorty.data.dto.CharacterPageDto
 import org.topit.rickmorty.data.dto.LocationDto
 import org.topit.rickmorty.domain.errors.LoadException
 
-class NetworkCharacterDataSource(
-    private val api: RickMortyApi,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-) : CharacterDataSource {
+class NetworkCharacterDataSource(private val api: RickMortyApi) : CharacterDataSource {
 
     override suspend fun getCharacters(page: Int, name: String): CharacterPageDto =
         guard { api.getCharacters(page, name) }
@@ -29,7 +23,7 @@ class NetworkCharacterDataSource(
     override suspend fun getLocation(id: Int): LocationDto = guard { api.getLocation(id) }
 
     private suspend fun <T> guard(request: suspend () -> T): T = try {
-        withContext(dispatcher) { request() }
+        request()
     } catch (_: HttpRequestTimeoutException) {
         throw LoadException.Timeout()
     } catch (error: CancellationException) {
