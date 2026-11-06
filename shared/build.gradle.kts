@@ -52,6 +52,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -66,12 +67,25 @@ kotlin {
             implementation(libs.navigation3.ui)
             implementation(libs.kotlinx.coroutinesCore)
             implementation(libs.kotlinx.serializationCore)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.json)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.cio)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
         jsMain.dependencies {
             implementation(libs.wrappers.browser)
+            implementation(libs.ktor.client.js)
         }
     }
 }
@@ -88,4 +102,26 @@ composeCompiler {
 compose.resources {
     publicResClass = true
     packageOfResClass = "org.topit.rickmorty.resources"
+}
+
+val generateApiConfig = tasks.register("generateApiConfig") {
+    val baseUrl = providers.gradleProperty("rickmorty.api.baseUrl")
+    val outputDir = layout.buildDirectory.dir("generated/apiConfig/commonMain/kotlin")
+    inputs.property("baseUrl", baseUrl)
+    outputs.dir(outputDir)
+    doLast {
+        val file = outputDir.get().file("org/topit/rickmorty/data/network/ApiConfig.kt").asFile
+        file.parentFile.mkdirs()
+        file.writeText(
+            """
+            package org.topit.rickmorty.data.network
+
+            internal const val API_BASE_URL = "${baseUrl.get()}"
+            """.trimIndent() + "\n",
+        )
+    }
+}
+
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir(generateApiConfig)
 }

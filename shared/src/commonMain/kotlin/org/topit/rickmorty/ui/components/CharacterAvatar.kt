@@ -1,6 +1,5 @@
 package org.topit.rickmorty.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +15,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
+import coil3.compose.AsyncImage
 import org.topit.rickmorty.ui.model.StatusUi
 
 @Composable
 fun CharacterAvatar(
-    avatar: DrawableResource?,
+    imageUrl: String,
     initials: String,
     status: StatusUi,
     size: Dp,
@@ -37,17 +35,14 @@ fun CharacterAvatar(
         color = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
     ) {
-        if (avatar != null) {
-            Image(
-                painter = painterResource(avatar),
+        Box(contentAlignment = Alignment.Center) {
+            Text(text = initials, style = textStyle)
+            AsyncImage(
+                model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
             )
-        } else {
-            Box(contentAlignment = Alignment.Center) {
-                Text(text = initials, style = textStyle)
-            }
         }
     }
 }
