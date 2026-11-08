@@ -25,6 +25,15 @@
 
 Нужен JDK 21. Остальное Gradle скачает сам, первый sync долгий.
 
+Перед первой сборкой добавьте в `local.properties` в корне проекта базовый адрес REST API источника
+(он указан в документации rickandmortyapi.com):
+
+```properties
+BASE_URL=<базовый адрес API>
+```
+
+Без него сборка остановится с сообщением, что `BASE_URL` не задан.
+
 Desktop — ведущий таргет вехи:
 
 ```bash
@@ -84,7 +93,7 @@ python tools/check-strings.py
 - **Подписи** — `composeResources`, две локали. Язык и тема переключаются в шапке и живут в памяти сессии.
 - **Данные каталога не переводятся**: имена, виды и названия локаций остаются на английском, как в API.
 - **Сеть** — цепочка `HttpClient` → `RickMortyApi` → `NetworkCharacterDataSource` → `RickMortyRepositoryImpl` → ViewModel. Ktor известен только слою data, ViewModel видит доменную `LoadException`.
-- **Адрес API** не лежит в коде: он задан свойством `rickmorty.api.baseUrl` в `gradle.properties`, из него при сборке генерируется `ApiConfig.kt`.
+- **Адрес API** не лежит ни в коде, ни в git: он берётся из `BASE_URL` в `local.properties` (файл в `.gitignore`) и через [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) попадает в сгенерированный объект `BuildKonfig`. Для проверки другого адреса его можно передать параметром `-PBASE_URL=...`.
 - **Движки HTTP-клиента** выбираются через `expect`/`actual`: OkHttp на Android, CIO на JVM, Js в браузере.
 - **Аватары** — Coil 3 с сетевым модулем Ktor. Пока картинка не загрузилась или если загрузка не удалась, видны инициалы.
 

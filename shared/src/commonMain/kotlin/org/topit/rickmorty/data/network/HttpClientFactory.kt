@@ -10,13 +10,14 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.topit.rickmorty.BuildKonfig
 
 private const val REQUEST_TIMEOUT_MS = 20_000L
 
 fun createHttpClient(): HttpClient = HttpClient(createHttpEngine()) {
     expectSuccess = true
     defaultRequest {
-        url(API_BASE_URL)
+        url(BuildKonfig.BASE_URL)
     }
     install(ContentNegotiation) {
         json(Json { ignoreUnknownKeys = true })

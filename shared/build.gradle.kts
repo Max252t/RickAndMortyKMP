@@ -1,5 +1,7 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -7,6 +9,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -104,24 +107,19 @@ compose.resources {
     packageOfResClass = "org.topit.rickmorty.resources"
 }
 
-val generateApiConfig = tasks.register("generateApiConfig") {
-    val baseUrl = providers.gradleProperty("rickmorty.api.baseUrl")
-    val outputDir = layout.buildDirectory.dir("generated/apiConfig/commonMain/kotlin")
-    inputs.property("baseUrl", baseUrl)
-    outputs.dir(outputDir)
-    doLast {
-        val file = outputDir.get().file("org/topit/rickmorty/data/network/ApiConfig.kt").asFile
-        file.parentFile.mkdirs()
-        file.writeText(
-            """
-            package org.topit.rickmorty.data.network
-
-            internal const val API_BASE_URL = "${baseUrl.get()}"
-            """.trimIndent() + "\n",
-        )
-    }
+val localProperties = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use(::load)
 }
 
-kotlin.sourceSets.commonMain {
-    kotlin.srcDir(generateApiConfig)
+buildkonfig {
+    packageName = "org.topit.rickmorty"
+    defaultConfigs {
+        buildConfigField(
+            STRING,
+            "BASE_URL",
+            providers.gradleProperty("BASE_URL").orNull
+                ?: localProperties.getProperty("BASE_URL")
+                ?: error("BASE_URL is not set: add BASE_URL=<api base url> to local.properties"),
+        )
+    }
 }
