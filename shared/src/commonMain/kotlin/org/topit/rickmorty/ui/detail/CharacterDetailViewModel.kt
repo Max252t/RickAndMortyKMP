@@ -1,5 +1,6 @@
 package org.topit.rickmorty.ui.detail
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,16 +10,28 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.topit.rickmorty.domain.entities.Character
+import org.topit.rickmorty.domain.errors.LoadException
 import org.topit.rickmorty.domain.repositories.RickMortyRepository
-import org.topit.rickmorty.domain.repositories.getNeighbours
+import org.topit.rickmorty.ui.model.CharacterDetailUi
+import org.topit.rickmorty.ui.model.LoadErrorUi
+import org.topit.rickmorty.ui.model.toDetailUi
+import org.topit.rickmorty.ui.model.toUi
 import org.topit.rickmorty.ui.navigation.Navigator
 import org.topit.rickmorty.ui.navigation.Screen
-import org.topit.rickmorty.ui.model.CharacterDetailUi
-import org.topit.rickmorty.ui.model.toDetailUi
 import kotlin.reflect.KClass
+
+@Immutable
+sealed interface CharacterDetailState {
+    data object Loading : CharacterDetailState
+    data object NotFound : CharacterDetailState
+    data class Failure(val error: LoadErrorUi) : CharacterDetailState
+    data class Loaded(val character: CharacterDetailUi) : CharacterDetailState
+}
 
 sealed interface CharacterDetailIntent {
     data class NeighbourClicked(val id: Int) : CharacterDetailIntent
+    data object Retried : CharacterDetailIntent
 }
 
 class CharacterDetailViewModel(
@@ -27,20 +40,38 @@ class CharacterDetailViewModel(
     private val repository: RickMortyRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<CharacterDetailUi?>(null)
-    val state: StateFlow<CharacterDetailUi?> = _state.asStateFlow()
+    private val _state = MutableStateFlow<CharacterDetailState>(CharacterDetailState.Loading)
+    val state: StateFlow<CharacterDetailState> = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            val character = repository.getCharacter(characterId)
-            _state.value = character.toDetailUi(repository.getNeighbours(character))
-        }
+        load()
     }
 
     fun onIntent(intent: CharacterDetailIntent) {
         when (intent) {
             is CharacterDetailIntent.NeighbourClicked -> navigator.open(Screen.CharacterDetail(intent.id))
+            CharacterDetailIntent.Retried -> load()
         }
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.value = CharacterDetailState.Loading
+            _state.value = try {
+                val character = repository.getCharacter(characterId)
+                CharacterDetailState.Loaded(character.toDetailUi(loadNeighbours(character)))
+            } catch (_: LoadException.NotFound) {
+                CharacterDetailState.NotFound
+            } catch (error: LoadException) {
+                CharacterDetailState.Failure(error.toUi())
+            }
+        }
+    }
+
+    private suspend fun loadNeighbours(character: Character): List<Character> = try {
+        repository.getNeighbours(character)
+    } catch (_: LoadException) {
+        emptyList()
     }
 }
 

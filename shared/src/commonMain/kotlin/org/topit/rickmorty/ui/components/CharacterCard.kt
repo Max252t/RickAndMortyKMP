@@ -22,7 +22,7 @@ fun CharacterCard(
     CardSurface(onClick = onClick, modifier = modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             CharacterAvatar(
-                avatar = character.avatar,
+                imageUrl = character.imageUrl,
                 initials = character.initials,
                 status = character.status,
                 size = 56.dp,
